@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torre de Hanói</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #6b658f;
+      color: #fff;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #f1f1f1;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      position: relative;
+      height: 600px;
+    }
+
+    .torre {
+      position: relative;
+      width: 200px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .base {
+      width: 100%;
+      height: 20px;
+      background-color: #bd9d6e;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      z-index: 0;
+    }
+
+    .haste {
+      width: 15px;
+      height: 240px;
+      background-color: #bd9d6e;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 20px;
+      z-index: 0;
+    }
+
+    .disco {
+      position: absolute;
+      height: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    /* Discos - menor para maior */
+    .disco1 {
+      width: 60px;
+      background-color: #e74c3c;
+      bottom: 112px;
+    }
+
+    .disco2 {
+      width: 90px;
+      background-color: #e67e22;
+      bottom: 89px;
+    }
+
+    .disco3 {
+      width: 120px;
+      background-color: #f1c40f;
+      bottom: 66px;
+    }
+
+    .disco4 {
+      width: 150px;
+      background-color: #2ecc71;
+      bottom: 43px;
+    }
+
+    .disco5 {
+      width: 180px;
+      background-color: #3498db;
+      bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Torre de Hanói</h1>
+  <p>Este é um jogo clássico de matemática e lógica.</p>
+  <p>O objetivo é mover todos os discos de uma haste para outra, seguindo certas regras.</p>
+
+  <h2>Regras do jogo</h2>
+  <ul>
+    <li>Somente um disco pode ser movido por vez.</li>
+    <li>Não é permitido colocar um disco maior sobre um menor.</li>
+    <li>Apenas o disco do topo de uma haste pode ser movido.</li>
+  </ul>
+
+  <div class="container">
+    <!-- Torre A com todos os discos -->
+    <div class="torre" id="torrea">
+      <div class="disco disco1"></div>
+      <div class="disco disco2"></div>
+      <div class="disco disco3"></div>
+      <div class="disco disco4"></div>
+      <div class="disco disco5"></div>
+      <div class="haste" id="hastea"></div>
+      <div class="base" id="basea"></div>
+    </div>
+
+    <!-- Torre B -->
+    <div class="torre" id="torreb">
+      <div class="haste" id="hasteb"></div>
+      <div class="base" id="baseb"></div>
+    </div>
+
+    <!-- Torre C -->
+    <div class="torre" id="torrec">
+      <div class="haste" id="hastec"></div>
+      <div class="base" id="basec"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
