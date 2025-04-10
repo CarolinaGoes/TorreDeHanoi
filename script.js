@@ -3,10 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const torres = document.querySelectorAll(".torre");
   const discos = document.querySelectorAll(".disco");
 
-  // Posiciona os discos inicialmente
   const discosArray = Array.from(torreA.querySelectorAll(".disco"));
-  discosArray.forEach((disco, index) => {
-    const topo = torreA.offsetHeight - 20 - index * 22;
+  discosArray.reverse().forEach((disco, index) => {
+    const topo = torreA.offsetHeight - 42 - index * 22;
     disco.style.top = `${topo}px`;
   });
 
@@ -19,11 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
     disco.addEventListener("mousedown", (e) => {
       const torre = disco.parentElement;
       const todosDiscos = Array.from(torre.querySelectorAll(".disco"));
-      const topo = todosDiscos.reduce((menor, atual) => {
-        return parseInt(atual.style.top || 0) > parseInt(menor.style.top || 0) ? atual : menor;
+
+      const discoTopo = todosDiscos.reduce((maisAlto, atual) => {
+        return parseInt(atual.style.top || 0) < parseInt(maisAlto.style.top || 0) ? atual : maisAlto;
       }, todosDiscos[0]);
 
-      if (topo !== disco) {
+      if (disco !== discoTopo) {
         alert("Só o disco do topo pode ser movido!");
         return;
       }
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       offsetX = e.offsetX;
       offsetY = e.offsetY;
 
-      disco.style.zIndex = 1000;
+      disco.style.zIndex = 3;
 
       document.addEventListener("mousemove", moverDisco);
       document.addEventListener("mouseup", soltarDisco);
@@ -60,15 +60,17 @@ document.addEventListener("DOMContentLoaded", () => {
         e.clientY >= rect.top &&
         e.clientY <= rect.bottom
       ) {
-        const discosNaTorre = torre.querySelectorAll(".disco");
-        const topoDestino = [...discosNaTorre].sort((a, b) => parseInt(a.style.top) - parseInt(b.style.top)).at(-1);
+        const discosNaTorre = Array.from(torre.querySelectorAll(".disco"));
+        const discoTopoDestino = discosNaTorre.reduce((maisAlto, atual) => {
+          return parseInt(atual.style.top || 0) < parseInt(maisAlto.style.top || 0) ? atual : maisAlto;
+        }, discosNaTorre[0] || { dataset: { tamanho: "999" } });
 
         const tamanhoAtual = parseInt(discoAtivo.dataset.tamanho);
-        const tamanhoTopo = topoDestino ? parseInt(topoDestino.dataset.tamanho) : Infinity;
+        const tamanhoTopo = parseInt(discoTopoDestino.dataset.tamanho) || Infinity;
 
-        if (tamanhoAtual < tamanhoTopo) {
+        if (tamanhoAtual < tamanhoTopo || discosNaTorre.length === 0) {
           torre.appendChild(discoAtivo);
-          const novoTopo = torre.offsetHeight - 20 - discosNaTorre.length * 22;
+          const novoTopo = torre.offsetHeight - 42 - discosNaTorre.length * 22;
           discoAtivo.style.top = `${novoTopo}px`;
           discoAtivo.style.left = "50%";
           discoAtivo.style.transform = "translateX(-50%)";
@@ -81,9 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!colocado) {
       torreOrigem.appendChild(discoAtivo);
-      const discosOrigem = torreOrigem.querySelectorAll(".disco");
-      const posicao = torreOrigem.offsetHeight - 20 - (discosOrigem.length - 1) * 22;
-      discoAtivo.style.top = `${posicao}px`;
+      const discosOrigem = Array.from(torreOrigem.querySelectorAll(".disco"));
+      const novoTopo = torreOrigem.offsetHeight - 42 - (discosOrigem.length - 1) * 22;
+      discoAtivo.style.top = `${novoTopo}px`;
       discoAtivo.style.left = "50%";
       discoAtivo.style.transform = "translateX(-50%)";
     }
