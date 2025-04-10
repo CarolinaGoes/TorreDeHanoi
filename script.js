@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const torres = document.querySelectorAll(".torre");
   const discos = document.querySelectorAll(".disco");
 
+  // Posicionar os discos corretamente (de baixo pra cima)
   const discosArray = Array.from(torreA.querySelectorAll(".disco"));
   discosArray.reverse().forEach((disco, index) => {
     const topo = torreA.offsetHeight - 42 - index * 22;
@@ -30,8 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       discoAtivo = disco;
       torreOrigem = torre;
-      offsetX = e.offsetX;
-      offsetY = e.offsetY;
+
+      const discoRect = disco.getBoundingClientRect();
+      const containerRect = document.querySelector(".container").getBoundingClientRect();
+
+      // Corrigindo o cálculo da posição do mouse em relação ao container
+      offsetX = e.clientX - discoRect.left;
+      offsetY = e.clientY - discoRect.top;
 
       disco.style.zIndex = 3;
 
