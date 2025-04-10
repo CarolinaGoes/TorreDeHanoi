@@ -1,126 +1,96 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const discos = document.querySelectorAll(".disco");
+  const torreA = document.getElementById("torreA");
   const torres = document.querySelectorAll(".torre");
-  const container = document.querySelector(".container");
+  const discos = document.querySelectorAll(".disco");
 
+  // Posiciona os discos inicialmente
+  const discosArray = Array.from(torreA.querySelectorAll(".disco"));
+  discosArray.forEach((disco, index) => {
+    const topo = torreA.offsetHeight - 20 - index * 22;
+    disco.style.top = `${topo}px`;
+  });
+
+  let discoAtivo = null;
   let offsetX = 0;
   let offsetY = 0;
-  let arrastando = false;
-  let posicaoInicial = { left: 0, top: 0 };
-  let discoAtivo = null;
   let torreOrigem = null;
-
-  // Função para mover o disco para a torre de destino
-  function moverDisco(disco, torreDestino, novoTop, centroTorre) {
-    torreDestino.appendChild(disco);
-    disco.style.left = `${centroTorre - disco.offsetWidth / 2}px`;
-    disco.style.top = `${novoTop}px`;
-  }
 
   discos.forEach(disco => {
     disco.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      
-      // Identifica a torre de origem verificando o pai do disco
-      torreOrigem = disco.parentElement;
-      
-      // Verifica se o disco clicado é o do topo na torre de origem
-      const discosNaTorre = torreOrigem.querySelectorAll(".disco");
-      const discoNoTopo = discosNaTorre[discosNaTorre.length - 1];
-      
-      if (disco !== discoNoTopo) {
-        alert("Você só pode mover o disco que está no topo!");
+      const torre = disco.parentElement;
+      const todosDiscos = Array.from(torre.querySelectorAll(".disco"));
+      const topo = todosDiscos.reduce((menor, atual) => {
+        return parseInt(atual.style.top || 0) > parseInt(menor.style.top || 0) ? atual : menor;
+      }, todosDiscos[0]);
+
+      if (topo !== disco) {
+        alert("Só o disco do topo pode ser movido!");
         return;
       }
 
       discoAtivo = disco;
+      torreOrigem = torre;
+      offsetX = e.offsetX;
+      offsetY = e.offsetY;
 
-      const discoRect = disco.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
+      disco.style.zIndex = 1000;
 
-      offsetX = e.clientX - discoRect.left;
-      offsetY = e.clientY - discoRect.top;
-
-      posicaoInicial = {
-        left: disco.offsetLeft,
-        top: disco.offsetTop
-      };
-
-      arrastando = true;
-
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUp);
+      document.addEventListener("mousemove", moverDisco);
+      document.addEventListener("mouseup", soltarDisco);
     });
   });
 
-  function onMouseMove(e) {
-    if (!arrastando || !discoAtivo) return;
-    
-    const containerRect = container.getBoundingClientRect();
-    const left = e.clientX - containerRect.left - offsetX;
-    const top = e.clientY - containerRect.top - offsetY;
-
-    discoAtivo.style.position = "absolute";
-    discoAtivo.style.left = `${left}px`;
-    discoAtivo.style.top = `${top}px`;
-    discoAtivo.style.zIndex = 1000;
+  function moverDisco(e) {
+    if (!discoAtivo) return;
+    const containerRect = document.querySelector(".container").getBoundingClientRect();
+    discoAtivo.style.left = `${e.clientX - containerRect.left - offsetX}px`;
+    discoAtivo.style.top = `${e.clientY - containerRect.top - offsetY}px`;
   }
 
-  function onMouseUp(e) {
-    if (!arrastando || !discoAtivo) return;
+  function soltarDisco(e) {
+    if (!discoAtivo) return;
 
-    arrastando = false;
-    discoAtivo.style.zIndex = "";
-
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
-
-    let colocadoNaTorre = false;
+    let colocado = false;
 
     torres.forEach(torre => {
-      const torreRect = torre.getBoundingClientRect();
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-
+      const rect = torre.getBoundingClientRect();
       if (
-        mouseX >= torreRect.left &&
-        mouseX <= torreRect.right &&
-        mouseY >= torreRect.top &&
-        mouseY <= torreRect.bottom
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
       ) {
-        // Se a torre destino for diferente da torre de origem, vamos tentar mover
         const discosNaTorre = torre.querySelectorAll(".disco");
-        
-        // Se a torre estiver vazia, ou se o disco ativo for menor que o disco no topo da torre destino, a jogada é válida
-        let podeMover = false;
-        if (discosNaTorre.length === 0) {
-          podeMover = true;
-        } else {
-          const discoNoTopo = discosNaTorre[discosNaTorre.length - 1];
-          const tamanhoAtivo = parseInt(discoAtivo.dataset.tamanho);
-          const tamanhoTopo = parseInt(discoNoTopo.dataset.tamanho);
+        const topoDestino = [...discosNaTorre].sort((a, b) => parseInt(a.style.top) - parseInt(b.style.top)).at(-1);
 
-          podeMover = tamanhoAtivo < tamanhoTopo;
-        }
+        const tamanhoAtual = parseInt(discoAtivo.dataset.tamanho);
+        const tamanhoTopo = topoDestino ? parseInt(topoDestino.dataset.tamanho) : Infinity;
 
-        if (podeMover) {
-          const centroTorre = torre.offsetLeft + torre.offsetWidth / 2;
-          const novoTop = 2850 - (discosNaTorre.length + 1) * 22;
-          moverDisco(discoAtivo, torre, novoTop, centroTorre);
-          colocadoNaTorre = true;
+        if (tamanhoAtual < tamanhoTopo) {
+          torre.appendChild(discoAtivo);
+          const novoTopo = torre.offsetHeight - 20 - discosNaTorre.length * 22;
+          discoAtivo.style.top = `${novoTopo}px`;
+          discoAtivo.style.left = "50%";
+          discoAtivo.style.transform = "translateX(-50%)";
+          colocado = true;
         } else {
-          alert("Só é permitido colocar um disco menor sobre um disco maior!");
+          alert("Você não pode colocar um disco maior sobre um menor!");
         }
       }
     });
 
-    // Se não foi colocado em nenhuma torre válida, retorna à posição inicial
-    if (!colocadoNaTorre) {
-      discoAtivo.style.left = `${posicaoInicial.left}px`;
-      discoAtivo.style.top = `${posicaoInicial.top}px`;
+    if (!colocado) {
+      torreOrigem.appendChild(discoAtivo);
+      const discosOrigem = torreOrigem.querySelectorAll(".disco");
+      const posicao = torreOrigem.offsetHeight - 20 - (discosOrigem.length - 1) * 22;
+      discoAtivo.style.top = `${posicao}px`;
+      discoAtivo.style.left = "50%";
+      discoAtivo.style.transform = "translateX(-50%)";
     }
 
+    discoAtivo.style.zIndex = "";
     discoAtivo = null;
-    torreOrigem = null;
+    document.removeEventListener("mousemove", moverDisco);
+    document.removeEventListener("mouseup", soltarDisco);
   }
 });
