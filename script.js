@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const torres = document.querySelectorAll(".torre");
   const discos = document.querySelectorAll(".disco");
 
-  // Posicionar os discos corretamente (de baixo pra cima)
   const discosArray = Array.from(torreA.querySelectorAll(".disco"));
   discosArray.reverse().forEach((disco, index) => {
     const topo = torreA.offsetHeight - 42 - index * 22;
