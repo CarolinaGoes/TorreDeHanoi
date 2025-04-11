@@ -18,10 +18,11 @@
 
     .container {
       display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
       height: 400px;
       position: relative;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
     }
 
     .torre {
@@ -55,7 +56,7 @@
 
     .disco {
       position: absolute;
-      height: 22px;
+      height: 20px;
       border-radius: 10px;
       border: 1px solid rgba(0, 0, 0, 0.2);
       left: 50%;
@@ -64,22 +65,40 @@
       z-index: 1;
     }
 
-    .disco1 { height:20px; width: 20%; background: #e74c3c; top: 180px;}
-    .disco2 { height:20px; width: 40%; background: #e67e22; top: 200px;}
-    .disco3 { height:20px; width: 60%; background: #f1c40f; top: 220px;}
-    .disco4 { height:20px; width: 80%; background: #2ecc71; top: 240px;}
-    .disco5 { height:20px; width: 100%; background: #3498db; top: 260px;}
+    .discovermelho { background: #e74c3c;}
+    .discolaranja { background: #e67e22;}
+    .discoamarelo { background: #f1c40f;}
+    .discoverde { background: #2ecc71;}
+    .discoazul { background: #3498db;}
+  
+    .posição1 { top: 180px; width: 20%; left:50%}
+    .posição2 { top: 200px; width: 40%; left:50%}
+    .posição3 { top: 220px; width: 60%; left:50%}
+    .posição4 { top: 240px; width: 80%; left:50%}
+    .posição5 { top: 260px; width:100%; left:50%}
+    .posição6 { top: 180px; width: 20%; left:150%}
+    .posição7 { top: 200px; width: 40%; left:150%}
+    .posição8 { top: 220px; width: 60%; left:150%}
+    .posição9 { top: 240px; width: 80%; left:150%}
+    .posição10 { top: 260px; width:100%; left:150%}
+    .posição11 { top: 180px; width: 20%; left:250%}
+    .posição12 { top: 200px; width: 40%; left:250%}
+    .posição13 { top: 220px; width: 60%; left:250%}
+    .posição14 { top: 240px; width: 80%; left:250%}
+    .posição15 { top: 260px; width:100%; left:250%}
+  
+  
   </style>
 </head>
 <body>
   <h1>Torre de Hanói</h1>
   <div class="container">
     <div class="torre" id="torreA">
-      <div class="disco disco1" data-tamanho="1"></div>
-      <div class="disco disco2" data-tamanho="2"></div>
-      <div class="disco disco3" data-tamanho="3"></div>
-      <div class="disco disco4" data-tamanho="4"></div>
-      <div class="disco disco5" data-tamanho="5"></div>
+      <div class="disco discovermelho posição1" data-tamanho="1"></div>
+      <div class="disco discolaranja posição2" data-tamanho="2"></div>
+      <div class="disco discoamarelo posição3" data-tamanho="3"></div>
+      <div class="disco discoverde posição4" data-tamanho="4"></div>
+      <div class="disco discoazul posição5" data-tamanho="5"></div>
       <div class="haste"></div>
       <div class="base"></div>
     </div>
