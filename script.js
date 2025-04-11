@@ -1,8 +1,8 @@
 let discovermelho = document.querySelector(".discovermelho");
-let discoverlaranja = document.querySelector(".discolaranja");
-let discoveramarelo = document.querySelector(".discoamarelo");
-let discoververde = document.querySelector(".discoverde");
-let discoverazul = document.querySelector(".discoazul");
+let discolaranja = document.querySelector(".discolaranja");
+let discoamarelo = document.querySelector(".discoamarelo");
+let discoverde = document.querySelector(".discoverde");
+let discoazul = document.querySelector(".discoazul");
 let arrastar = false;
 let offsetX, offsetY;
 
