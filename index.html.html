@@ -19,23 +19,19 @@
     .container {
       display: flex;
       height: 400px;
-      position: relative;
       gap: 20px;
-      width: 100%;
     }
 
     .torre {
       position: relative;
       width: 150px;
       height: 300px;
-      background-color: transparent;
     }
 
     .haste {
       position: absolute;
       bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 70px;
       width: 10px;
       height: 200px;
       background-color: #bd9d6e;
@@ -46,7 +42,7 @@
     .base {
       position: absolute;
       bottom: 0;
-      width: 100%;
+      width: 10em;
       height: 20px;
       background-color: #bd9d6e;
       border-radius: 5px;
@@ -69,16 +65,16 @@
     .discoverde { background: #2ecc71;width: 80%;}
     .discoazul { background: #3498db;width: 100%;}
 
-    .posição1 { top: 180px;  left: 50%; }
-    .posição2 { top: 200px;  left: 50%; }
-    .posição3 { top: 220px;  left: 50%; }
-    .posição4 { top: 240px;  left: 50%; }
-    .posição5 { top: 260px;  left: 50%; }
-    .posição6 { top: 180px; left: 150%; }
-    .posição7 { top: 200px; left: 150%; }
-    .posição8 { top: 220px; left: 150%; }
-    .posição9 { top: 240px; left: 150%; }
-    .posição10 { top: 260px; left: 150%; }
+    .posição1 { top: 180px;  left: 75px; }
+    .posição2 { top: 200px;  left: 75px; }
+    .posição3 { top: 220px;  left: 75px; }
+    .posição4 { top: 240px;  left: 75px; }
+    .posição5 { top: 260px;  left: 75px; }
+    .posição6 { top: 180px; left: 160px; }
+    .posição7 { top: 200px; left: 160px; }
+    .posição8 { top: 220px; left: 160px; }
+    .posição9 { top: 240px; left: 160px; }
+    .posição10 { top: 260px; left: 160px; }
     .posição11 { top: 180px; left: 250%; }
     .posição12 { top: 200px; left: 250%; }
     .posição13 { top: 220px;  left: 250%; }
@@ -90,7 +86,7 @@
   <h1>Torre de Hanói</h1>
   <div class="container">
     <div class="torre" id="torreA">
-      <div class="disco discovermelho posição1"></div>
+      <div class="disco discovermelho posição6"></div>
       <div class="disco discolaranja posição2"></div>
       <div class="disco discoamarelo posição3"></div>
       <div class="disco discoverde posição4"></div>
