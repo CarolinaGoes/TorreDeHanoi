@@ -90,7 +90,6 @@ function tornarArrastavel(elemento) {
   });
 }
 
-// Tornar todos os discos arrastáveis
 tornarArrastavel(discovermelho);
 tornarArrastavel(discolaranja);
 tornarArrastavel(discoamarelo);
