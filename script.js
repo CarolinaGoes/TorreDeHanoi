@@ -26,7 +26,7 @@ function tornarArrastavel(elemento) {
 
     if(const torre = document.getElementById("torreA");
     const rect = torre.getBoundingClientRect();){
-      
+
     }
 
     disco.style.left = rect.left + "-10px";
@@ -35,3 +35,5 @@ function tornarArrastavel(elemento) {
   });
 }
 tornarArrastavel(disco);
+
+
